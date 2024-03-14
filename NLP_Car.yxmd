@@ -1,0 +1,628 @@
+<?xml version="1.0"?>
+<AlteryxDocument yxmdVer="2023.2" RunE2="T">
+  <Nodes>
+    <Node ToolID="2">
+      <GuiSettings Plugin="JupyterCode">
+        <Position x="42" y="114" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <WorkflowName>c:\users\16577\desktop\new workflow2.yxmd</WorkflowName>
+          <JupyterProduction>false</JupyterProduction>
+          <vEnvName>designerbasetools_venv</vEnvName>
+          <DefaultVenv>1</DefaultVenv>
+          <productionModeScript />
+          <Port>50351</Port>
+          <JupyterGuidDir>774ebf914b13aad549d82484ed4f0b12</JupyterGuidDir>
+          <JupyterGuidCopy />
+          <LastExecutedByEngineVersion>2023.2.1.89</LastExecutedByEngineVersion>
+          <Notebook><![CDATA[{"cells":[{"cell_type":"code","execution_count":1,"metadata":{},"outputs":[],"source":["import os\n","import pandas as pd\n","import re\n","from ayx import Alteryx\n","\n","from ayx import Package\n","\n","\n","base_dir = \"C:\\\\Users\\\\16577\\\\Downloads\\\\data\\\\OpinRankDataset\\\\cars\"\n","\n","\n","pattern = re.compile(\n","    r'<DOCNO>(.*?)</DOCNO>\\s*?<DOC>.*?<DATE>(.*?)</DATE>\\s*?<AUTHOR>(.*?)</AUTHOR>\\s*?<TEXT>(.*?)</TEXT>\\s*?<FAVORITE>(.*?)</FAVORITE>',\n","    re.DOTALL)\n","\n","\n","data = []\n","\n","\n","def parse_content(content):\n","    matches = pattern.findall(content)\n","    for match in matches:\n","        docno, date, author, text, favorite = match\n","        data.append({\n","            'DOCNO': docno.strip(),\n","            'Date': date.strip(),\n","            'Author': author.strip(),\n","            'Review': text.strip(),\n","            'Favorite': favorite.strip()\n","        })\n","\n","for year in range(2007, 2010):  # 2009 is inclusive\n","    year_folder = os.path.join(base_dir, str(year))\n","    if os.path.exists(year_folder) and os.path.isdir(year_folder):\n","        for filename in os.listdir(year_folder):\n","            file_path = os.path.join(year_folder, filename)\n","            try:\n","                with open(file_path, 'r', encoding='utf-8', errors='replace') as text_file:\n","                    content = text_file.read()\n","                    parse_content(content)\n","            except UnicodeDecodeError:\n","                print(f\"Skipping file due to decoding error: {file_path}\")\n","\n","\n","df = pd.DataFrame(data)\n","\n","Alteryx.write(df, 1)\n"]}],"metadata":{"kernelspec":{"display_name":"designerbasetools_venv","language":"python","name":"designerbasetools_venv"},"language_info":{"codemirror_mode":{"name":"ipython","version":3},"file_extension":".py","mimetype":"text/x-python","name":"python","nbconvert_exporter":"python","pygments_lexer":"ipython3","version":"3.8.16"}},"nbformat":4,"nbformat_minor":2}]]></Notebook>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+        <MetaInfo connection="Output1">
+          <RecordInfo>
+            <Field name="DOCNO" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="Date" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="Author" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="Review" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="Favorite" size="1073741823" source="PythonTool:" type="V_WString" />
+          </RecordInfo>
+        </MetaInfo>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxJupyterPluginEngine.dll" EngineDllEntryPoint="AlteryxJupyter" />
+    </Node>
+    <Node ToolID="3">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+        <Position x="282" y="42" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <TempFile>C:\Users\16577\AppData\Local\Temp\Engine_11388_f5fbaa0af589dd428f90094cee6127a1_\Engine_11388_d3cb2e41bd430d4286ebce50cf2ebae9~.yxdb</TempFile>
+          <TempFileDataProfiling />
+          <Layout>
+            <ViewMode>Single</ViewMode>
+            <ViewSize value="100" />
+            <View1>
+              <DefaultTab>Profile</DefaultTab>
+              <Hints>
+                <Table />
+              </Hints>
+            </View1>
+            <View2>
+              <DefaultTab>Profile</DefaultTab>
+              <Hints />
+            </View2>
+          </Layout>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+    </Node>
+    <Node ToolID="4">
+      <GuiSettings>
+        <Position x="162" y="222" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Value name="Check Box (135)">False</Value>
+          <Value name="Check Box (136)">False</Value>
+          <Value name="List Box (11)">""</Value>
+          <Value name="Check Box (84)">True</Value>
+          <Value name="Check Box (117)">True</Value>
+          <Value name="Check Box (15)">True</Value>
+          <Value name="Check Box (109)">False</Value>
+          <Value name="Check Box (122)">False</Value>
+          <Value name="Check Box (53)">False</Value>
+          <Value name="Check Box (58)">False</Value>
+          <Value name="Check Box (70)">False</Value>
+          <Value name="Check Box (77)">False</Value>
+          <Value name="Drop Down (81)">upper</Value>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+        <Dependencies>
+          <Implicit />
+        </Dependencies>
+      </Properties>
+      <EngineSettings Macro="Cleanse.yxmc" />
+    </Node>
+    <Node ToolID="6">
+      <GuiSettings>
+        <Position x="234" y="222" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Value name="estimation pct">70</Value>
+          <Value name="validation pct">30</Value>
+          <Value name="rand seed">1</Value>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+        <Dependencies>
+          <Implicit />
+        </Dependencies>
+      </Properties>
+      <EngineSettings Macro="Predictive Tools\Create_Samples.yxmc" />
+    </Node>
+    <Node ToolID="8">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+        <Position x="294" y="390" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <TempFile>C:\Users\16577\AppData\Local\Temp\Engine_11388_f5fbaa0af589dd428f90094cee6127a1_\Engine_11388_3f24770375bd894d82faa55f8dd49948~.yxdb</TempFile>
+          <TempFileDataProfiling />
+          <Layout>
+            <ViewMode>Single</ViewMode>
+            <ViewSize value="100" />
+            <View1>
+              <DefaultTab>Profile</DefaultTab>
+              <Hints>
+                <Table />
+              </Hints>
+            </View1>
+            <View2 />
+          </Layout>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+    </Node>
+    <Node ToolID="9">
+      <GuiSettings Plugin="JupyterCode">
+        <Position x="318" y="78" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <WorkflowName>c:\users\16577\desktop\new workflow2.yxmd</WorkflowName>
+          <JupyterProduction>false</JupyterProduction>
+          <vEnvName>designerbasetools_venv</vEnvName>
+          <DefaultVenv>1</DefaultVenv>
+          <productionModeScript />
+          <Port>50351</Port>
+          <JupyterGuidDir>d9b2a3d4ab95209ac253b831f5cbad4b</JupyterGuidDir>
+          <JupyterGuidCopy />
+          <LastExecutedByEngineVersion>2023.2.1.89</LastExecutedByEngineVersion>
+          <Notebook><![CDATA[{"cells":[{"cell_type":"code","execution_count":1,"metadata":{"ayx":{"cell_css":"border: 1px solid #58a; margin: 2px;","contents_keyword":"installPackages","label":"deps"}},"outputs":[],"source":["# List all non-standard packages to be imported by your \n","# script here (only missing packages will be installed)\n","from ayx import Package\n","#Package.installPackages(['pandas','numpy'])"]},{"cell_type":"code","execution_count":2,"metadata":{},"outputs":[],"source":["from ayx import Alteryx\n","\n"]},{"cell_type":"code","execution_count":3,"metadata":{},"outputs":[],"source":["import pandas as pd\n","import numpy as np\n","from sklearn.model_selection import train_test_split\n","from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer\n","from sklearn.naive_bayes import MultinomialNB\n","from sklearn.metrics import classification_report\n","from gensim import corpora, models\n","import nltk\n","nltk.download('stopwords')\n","from nltk.corpus import stopwords"]},{"cell_type":"code","execution_count":4,"metadata":{},"outputs":[],"source":["df = Alteryx.read(\"#1\")"]},{"cell_type":"code","execution_count":5,"metadata":{},"outputs":[],"source":["df.columns"]},{"cell_type":"code","execution_count":6,"metadata":{},"outputs":[],"source":["\n","def preprocess_text(text):\n","    return [word for word in text.lower().split() if word not in stopwords.words('english')]\n","def label_data(row):\n","    # Keywords for each category\n","    performance_keywords = ['fast', 'speed', 'acceleration', 'horsepower', 'performance']\n","    luxury_keywords = ['luxury', 'leather', 'premium', 'comfort', 'elegant']\n","    durability_keywords = ['durable', 'reliable', 'long-lasting', 'warranty', 'sturdy']\n","    \n","    # Convert review and fav to lower case and check for keywords\n","    review_fav_text = (row['Review'] + \" \" + row['Favorite']).lower()\n","    \n","    if any(keyword in review_fav_text for keyword in performance_keywords):\n","        return 'performance'\n","    elif any(keyword in review_fav_text for keyword in luxury_keywords):\n","        return 'luxury'\n","    elif any(keyword in review_fav_text for keyword in durability_keywords):\n","        return 'durability'\n","    else:\n","        return 'other'  # Use 'other' for reviews that don't match any category\n","\n","df['label'] = df.apply(label_data, axis=1)\n","\n","df['processed_review'] = df['Review'].apply(preprocess_text)\n","df['processed_fav'] = df['Favorite'].apply(preprocess_text)\n","\n","\n","combined_texts = df['processed_review'] + df['processed_fav']\n","\n","# LDA Topic Modeling\n","dictionary = corpora.Dictionary(combined_texts)\n","corpus = [dictionary.doc2bow(text) for text in combined_texts]\n","\n","lda_model = models.LdaModel(corpus=corpus, id2word=dictionary, num_topics=3, passes=15, random_state=42)\n","\n","print(\"LDA Topics:\")\n","for idx, topic in lda_model.print_topics(-1):\n","    print(f\"Topic: {idx} \\nWords: {topic}\")\n","print(\"\\n\")\n","\n","X_train, X_test, y_train, y_test = train_test_split(df['Review'], df['label'], test_size=0.2, random_state=42)\n","\n","vectorizer = TfidfVectorizer(stop_words='english')\n","X_train_vec = vectorizer.fit_transform(X_train)\n","X_test_vec = vectorizer.transform(X_test)\n","\n","clf = MultinomialNB()\n","clf.fit(X_train_vec, y_train)\n","\n","y_pred = clf.predict(X_test_vec)\n","print(\"Classification Report:\")\n","print(classification_report(y_test, y_pred))\n"]},{"cell_type":"code","execution_count":7,"metadata":{},"outputs":[],"source":["Alteryx.write(df, 4)\n","Alteryx.write(df, 5)"]}],"metadata":{"kernelspec":{"display_name":"designerbasetools_venv","language":"python","name":"designerbasetools_venv"},"language_info":{"codemirror_mode":{"name":"ipython","version":3},"file_extension":".py","mimetype":"text/x-python","name":"python","nbconvert_exporter":"python","pygments_lexer":"ipython3","version":"3.8.16"}},"nbformat":4,"nbformat_minor":2}]]></Notebook>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+        <MetaInfo connection="Output4">
+          <RecordInfo>
+            <Field name="DOCNO" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="Date" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="Author" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="Review" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="Favorite" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="label" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="processed_review" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="processed_fav" size="1073741823" source="PythonTool:" type="V_WString" />
+          </RecordInfo>
+        </MetaInfo>
+        <MetaInfo connection="Output5">
+          <RecordInfo>
+            <Field name="DOCNO" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="Date" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="Author" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="Review" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="Favorite" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="label" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="processed_review" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="processed_fav" size="1073741823" source="PythonTool:" type="V_WString" />
+          </RecordInfo>
+        </MetaInfo>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxJupyterPluginEngine.dll" EngineDllEntryPoint="AlteryxJupyter" />
+    </Node>
+    <Node ToolID="10">
+      <GuiSettings Plugin="JupyterCode">
+        <Position x="714" y="318" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <WorkflowName>c:\users\16577\desktop\new workflow2.yxmd</WorkflowName>
+          <JupyterProduction>false</JupyterProduction>
+          <vEnvName>designerbasetools_venv</vEnvName>
+          <DefaultVenv>1</DefaultVenv>
+          <productionModeScript />
+          <Port>50351</Port>
+          <JupyterGuidDir>7740e89c2fa209f6194ceee23fd5c30b</JupyterGuidDir>
+          <JupyterGuidCopy />
+          <LastExecutedByEngineVersion>2023.2.1.89</LastExecutedByEngineVersion>
+          <Notebook><![CDATA[{"cells":[{"cell_type":"code","execution_count":1,"metadata":{"ayx":{"cell_css":"border: 1px solid #58a; margin: 2px;","contents_keyword":"installPackages","label":"deps"}},"outputs":[],"source":["# List all non-standard packages to be imported by your \n","# script here (only missing packages will be installed)\n","from ayx import Package\n","#Package.installPackages(['pandas','numpy'])"]},{"cell_type":"code","execution_count":2,"metadata":{},"outputs":[],"source":["from ayx import Alteryx\n","\n"]},{"cell_type":"code","execution_count":3,"metadata":{},"outputs":[],"source":["df_keyword = Alteryx.read(\"#2\")\n","df_cluster =Alteryx.read(\"#1\")\n","df_og = Alteryx.read(\"#3\")"]},{"cell_type":"code","execution_count":4,"metadata":{},"outputs":[],"source":["df = df_cluster"]},{"cell_type":"code","execution_count":5,"metadata":{},"outputs":[],"source":["\n","import pandas as pd\n","from nltk.tokenize import sent_tokenize, word_tokenize\n","from nltk.corpus import stopwords\n","from textblob import TextBlob\n","import nltk\n","\n","nltk.download('punkt')\n","nltk.download('stopwords')\n","\n","\n","\n","aspect_keywords = df_keyword\n","\n","def preprocess_text(text):\n","    tokens = word_tokenize(text.lower())\n","    return [token for token in tokens if token.isalpha() and token not in stopwords.words('english')]\n","\n","\n","def sentiment_score(sentence):\n","    return TextBlob(sentence).sentiment.polarity\n","\n","\n","def normalize_score(polarity):\n","    return (polarity + 1) * 5  \n","\n","\n","def analyze_aspects(review):\n","    sentences = sent_tokenize(review)\n","    aspect_scores = {aspect: [] for aspect in aspect_keywords}\n","    \n","    for sentence in sentences:\n","        processed_sentence = preprocess_text(sentence)\n","        sentence_polarity = sentiment_score(sentence)\n","        \n","        for aspect, keywords in aspect_keywords.items():\n","            if any(keyword in processed_sentence for keyword in keywords):\n","                aspect_scores[aspect].append(sentence_polarity)\n","\n","  \n","    for aspect in aspect_scores:\n","        scores = aspect_scores[aspect]\n","        aspect_scores[aspect] = normalize_score(sum(scores) / len(scores)) if scores else None\n","\n","    return aspect_scores\n","\n","\n","df['aspect_scores'] = df['Review'].apply(analyze_aspects)\n","\n","\n","df = pd.concat([df.drop(['aspect_scores'], axis=1), df['aspect_scores'].apply(pd.Series)], axis=1)\n","\n"]},{"cell_type":"code","execution_count":6,"metadata":{},"outputs":[],"source":["final_df = df\n","keep = ['DOCNO', 'label','Performance','Luxury','Durability']\n","df_out = df[keep]\n"]},{"cell_type":"code","execution_count":7,"metadata":{},"outputs":[],"source":["Alteryx.write(df_out,1)"]},{"cell_type":"code","execution_count":null,"metadata":{},"outputs":[],"source":[]}],"metadata":{"kernelspec":{"display_name":"designerbasetools_venv","language":"python","name":"designerbasetools_venv"},"language_info":{"codemirror_mode":{"name":"ipython","version":3},"file_extension":".py","mimetype":"text/x-python","name":"python","nbconvert_exporter":"python","pygments_lexer":"ipython3","version":"3.8.16"}},"nbformat":4,"nbformat_minor":2}]]></Notebook>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+        <MetaInfo connection="Output1">
+          <RecordInfo>
+            <Field name="DOCNO" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="label" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="Performance" source="PythonTool:" type="Double" />
+            <Field name="Luxury" source="PythonTool:" type="Double" />
+            <Field name="Durability" source="PythonTool:" type="Double" />
+          </RecordInfo>
+        </MetaInfo>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxJupyterPluginEngine.dll" EngineDllEntryPoint="AlteryxJupyter" />
+    </Node>
+    <Node ToolID="11">
+      <GuiSettings>
+        <Position x="462" y="78" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Value name="Check Box (135)">False</Value>
+          <Value name="Check Box (136)">False</Value>
+          <Value name="List Box (11)">""</Value>
+          <Value name="Check Box (84)">True</Value>
+          <Value name="Check Box (117)">True</Value>
+          <Value name="Check Box (15)">True</Value>
+          <Value name="Check Box (109)">False</Value>
+          <Value name="Check Box (122)">False</Value>
+          <Value name="Check Box (53)">False</Value>
+          <Value name="Check Box (58)">False</Value>
+          <Value name="Check Box (70)">False</Value>
+          <Value name="Check Box (77)">False</Value>
+          <Value name="Drop Down (81)">upper</Value>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+        <Dependencies>
+          <Implicit />
+        </Dependencies>
+      </Properties>
+      <EngineSettings Macro="Cleanse.yxmc" />
+    </Node>
+    <Node ToolID="12">
+      <GuiSettings Plugin="JupyterCode">
+        <Position x="558" y="162" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <WorkflowName>c:\users\16577\desktop\new workflow2.yxmd</WorkflowName>
+          <JupyterProduction>false</JupyterProduction>
+          <vEnvName>designerbasetools_venv</vEnvName>
+          <DefaultVenv>1</DefaultVenv>
+          <productionModeScript />
+          <Port>50351</Port>
+          <JupyterGuidDir>5a588859041eb3e51a0feb1452a5184c</JupyterGuidDir>
+          <JupyterGuidCopy />
+          <LastExecutedByEngineVersion>2023.2.1.89</LastExecutedByEngineVersion>
+          <Notebook><![CDATA[{"cells":[{"cell_type":"markdown","metadata":{"ayx":{"cell_css":"border: 3px solid #357; margin: 4px; background: #fbffff","contents_keyword":"Alteryx.help()","label":"info"}},"source":["Run `Alteryx.help()` for info about useful functions.  \n","i.e., `Alteryx.read(\"#1\")`, `Alteryx.write(df,1)`, `Alteryx.getWorkflowConstant(\"Engine.WorkflowDirectory\")`"]},{"cell_type":"code","execution_count":1,"metadata":{"ayx":{"cell_css":"border: 1px solid #58a; margin: 2px;","contents_keyword":"installPackages","label":"deps"}},"outputs":[],"source":["# List all non-standard packages to be imported by your \n","# script here (only missing packages will be installed)\n","from ayx import Package\n","#Package.installPackages(['pandas','numpy'])"]},{"cell_type":"code","execution_count":2,"metadata":{},"outputs":[],"source":["from ayx import Alteryx\n","import pandas as pd\n","from sklearn.feature_extraction.text import TfidfVectorizer\n","from sklearn.model_selection import train_test_split\n","from nltk.corpus import stopwords\n","import nltk\n","\n","nltk.download('stopwords')\n"]},{"cell_type":"code","execution_count":3,"metadata":{},"outputs":[],"source":["df = Alteryx.read(\"#1\")"]},{"cell_type":"code","execution_count":4,"metadata":{},"outputs":[],"source":["import pandas as pd\n","from sklearn.feature_extraction.text import TfidfVectorizer\n","from nltk.corpus import stopwords\n","import nltk\n","\n","nltk.download('stopwords')\n","\n","\n","# Initialize a TF-IDF Vectorizer\n","tfidf_vectorizer = TfidfVectorizer(stop_words=stopwords.words('english'), max_features=1000)\n","\n","# Fit and transform the documents\n","tfidf_matrix = tfidf_vectorizer.fit_transform(df['Review'])\n","\n","# Feature names\n","feature_names = tfidf_vectorizer.get_feature_names_out()\n","\n","# Create a dense DataFrame from TF-IDF matrix\n","df_tfidf = pd.DataFrame(tfidf_matrix.todense(), columns=feature_names)\n","\n","# Add the label column for grouping\n","df_tfidf['label'] = df['label']\n","\n","# Group by label and calculate mean TF-IDF score for each term\n","grouped_tfidf = df_tfidf.groupby('label').mean()\n","\n","# Number of terms to extract\n","top_n = 10\n","\n","# Extracting top n terms for each aspect based on mean TF-IDF score\n","performance_keywords = grouped_tfidf.loc['performance'].nlargest(top_n).index.tolist()\n","luxury_keywords = grouped_tfidf.loc['luxury'].nlargest(top_n).index.tolist()\n","durability_keywords = grouped_tfidf.loc['durability'].nlargest(top_n).index.tolist()\n","\n","df_keywords = pd.DataFrame({\n","    'Performance': performance_keywords,\n","    'Luxury': luxury_keywords,\n","    'Durability': durability_keywords\n","})\n","\n","print(df_keywords)\n","\n","print(\"Performance Keywords:\", performance_keywords)\n","print(\"Luxury Keywords:\", luxury_keywords)\n","print(\"Durability Keywords:\", durability_keywords)\n"]},{"cell_type":"code","execution_count":5,"metadata":{},"outputs":[],"source":["Alteryx.write(df_keywords, 1)\n"]}],"metadata":{"kernelspec":{"display_name":"designerbasetools_venv","language":"python","name":"designerbasetools_venv"},"language_info":{"codemirror_mode":{"name":"ipython","version":3},"file_extension":".py","mimetype":"text/x-python","name":"python","nbconvert_exporter":"python","pygments_lexer":"ipython3","version":"3.8.16"}},"nbformat":4,"nbformat_minor":2}]]></Notebook>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+        <MetaInfo connection="Output1">
+          <RecordInfo>
+            <Field name="Performance" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="Luxury" size="1073741823" source="PythonTool:" type="V_WString" />
+            <Field name="Durability" size="1073741823" source="PythonTool:" type="V_WString" />
+          </RecordInfo>
+        </MetaInfo>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxJupyterPluginEngine.dll" EngineDllEntryPoint="AlteryxJupyter" />
+    </Node>
+    <Node ToolID="13">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+        <Position x="918" y="186" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <TempFile>C:\Users\16577\AppData\Local\Temp\Engine_11388_f5fbaa0af589dd428f90094cee6127a1_\Engine_11388_36cce1a3e7aa92499a8e76e1ed271ecc~.yxdb</TempFile>
+          <TempFileDataProfiling />
+          <Layout>
+            <ViewMode>Single</ViewMode>
+            <ViewSize value="100" />
+            <View1>
+              <DefaultTab>Profile</DefaultTab>
+              <Hints>
+                <Table />
+              </Hints>
+            </View1>
+            <View2 />
+          </Layout>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+    </Node>
+    <Node ToolID="14">
+      <GuiSettings Plugin="PortfolioPluginsGui.ComposerTable.PortfolioComposerTable">
+        <Position x="558" y="462" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <TableMode>Basic</TableMode>
+          <GroupingFields orderChanged="False">
+            <Field name="label" />
+          </GroupingFields>
+          <Width>100%</Width>
+          <ShowHeader value="True" />
+          <ShowBarGraph value="False" />
+          <TableFields orderChanged="False">
+            <Field name="DOCNO" selected="True" Alignment="Right" />
+            <Field name="label" selected="True" Alignment="Right" Width="" />
+            <Field name="Performance" selected="True" Alignment="Right" Places="0" />
+            <Field name="Luxury" selected="True" Alignment="Right" />
+            <Field name="Durability" selected="True" Alignment="Right" />
+            <Field name="*Unknown" selected="True" Alignment="Right" />
+          </TableFields>
+          <TableStyles>
+            <Style Name="Data" Font="Arial" Size="8" TextColor="#000000" BackColor="#ffffff" AltColor="#f0f0f0" RowGroup="1" />
+            <Style Name="Header" Font="Arial" Size="10" TextColor="#000000" BackColor="#dbdbdb" />
+            <Style Name="Borders" Width="1" DataColor="#000000" HeaderColor="#000000" RowBorder="None" BasicColBorder="Default (Use Per Column Setting)" />
+            <Style Name="Table" CellPadding="0" ColumnPadding="0" TableBorder="true" Width="1" BorderColor="#000000" />
+          </TableStyles>
+          <StyleRules>
+            <Rule Name="7562076e-e88d-417d-ba4f-83b789b68c3e">
+              <RowRule value="False" />
+              <HighPrecedence value="False" />
+              <Field>Performance</Field>
+              <Test>Always</Test>
+              <ApplyTo>Data</ApplyTo>
+              <SimpleVar />
+              <SimpleOp>==</SimpleOp>
+              <SimpleConst>1</SimpleConst>
+              <Formula>1</Formula>
+              <Style />
+              <PrettyName>Performance Rule 1</PrettyName>
+            </Rule>
+            <Rule Name="6cf8dcf4-0920-45a8-a67f-ba0833afc8b0">
+              <RowRule value="False" />
+              <HighPrecedence value="False" />
+              <Field>label</Field>
+              <Test>Always</Test>
+              <ApplyTo>Data</ApplyTo>
+              <SimpleVar />
+              <SimpleOp>==</SimpleOp>
+              <SimpleConst>1</SimpleConst>
+              <Formula>1</Formula>
+              <Style />
+              <PrettyName>label Rule 1</PrettyName>
+            </Rule>
+          </StyleRules>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>Basic Table</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="PortfolioPluginsEngine.dll" EngineDllEntryPoint="AlteryxPortfolioComposerTablePlugin" />
+    </Node>
+    <Node ToolID="15">
+      <GuiSettings Plugin="AlteryxBasePluginsGui.BrowseV2.BrowseV2">
+        <Position x="894" y="474" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <TempFile>C:\Users\16577\AppData\Local\Temp\Engine_11388_f5fbaa0af589dd428f90094cee6127a1_\Engine_11388_3edafcdb272c4f409f5e86dc1ba4f30e~.yxdb</TempFile>
+          <TempFileDataProfiling />
+          <Layout>
+            <ViewMode>Single</ViewMode>
+            <ViewSize value="100" />
+            <View1>
+              <DefaultTab>Report</DefaultTab>
+              <Hints>
+                <Table />
+              </Hints>
+            </View1>
+            <View2 />
+          </Layout>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="AlteryxBasePluginsEngine.dll" EngineDllEntryPoint="AlteryxBrowseV2" />
+    </Node>
+    <Node ToolID="16">
+      <GuiSettings Plugin="PortfolioPluginsGui.ComposerText.PortfolioComposerText">
+        <Position x="690" y="462" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <Images />
+          <HeaderMode value="True" />
+          <HeaderField>Table</HeaderField>
+          <Position>Above</Position>
+          <RawMode value="False" />
+          <ValidatePCXML value="True" />
+          <Message />
+          <RichTextMode value="True" />
+          <RichTextString><![CDATA[{\rtf1\ansi\ansicpg1252\deff0\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+\viewkind4\uc1\pard\qc\b\fs24 [label:A]\b0\par
+}
+]]></RichTextString>
+          <Styles>
+            <Style Name="TextStyle" />
+          </Styles>
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>[label:A]</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="PortfolioPluginsEngine.dll" EngineDllEntryPoint="AlteryxPortfolioComposerTextPlugin" />
+    </Node>
+    <Node ToolID="17">
+      <GuiSettings Plugin="PortfolioPluginsGui.ComposerLayout.PortfolioComposerLayout">
+        <Position x="786" y="462" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <GroupingMode>PerGroup</GroupingMode>
+          <GroupingFields orderChanged="False">
+            <Field name="label" />
+          </GroupingFields>
+          <Orientation>H</Orientation>
+          <Separator>Continuous</Separator>
+          <Width>100%</Width>
+          <Height />
+          <BorderStyle Enabled="true" Color="#000000" Width="2" />
+          <SeparatorStyle Enabled="false" Color="#000000" Width="1" />
+          <Padding>0</Padding>
+          <LayoutFields orderChanged="False">
+            <Field name="Table" selected="True" Alignment="Center" Width="" />
+          </LayoutFields>
+          <MergeIntoTable value="False" />
+          <SectionNameForGroup />
+          <SectionNameForAllRecords />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText>Horizontal Layout
+Each Group Of Records</DefaultAnnotationText>
+          <Left value="False" />
+        </Annotation>
+      </Properties>
+      <EngineSettings EngineDll="PortfolioPluginsEngine.dll" EngineDllEntryPoint="AlteryxPortfolioComposerLayoutPlugin" />
+    </Node>
+    <Node ToolID="18">
+      <GuiSettings Plugin="PortfolioPluginsGui.ComposerRender.PortfolioComposerRender">
+        <Position x="798" y="582" />
+      </GuiSettings>
+      <Properties>
+        <Configuration>
+          <TempFileType />
+          <OutputFile>C:\Users\16577\Downloads\report_cars.pdf</OutputFile>
+          <BatchMode value="False" />
+          <DataField>Layout</DataField>
+          <Separator>Continuous</Separator>
+          <EmbedDependencies value="False" />
+          <ShowHeader value="False" />
+          <ShowFooter value="False" />
+          <PdfCefOutput value="False" />
+          <PortraitMode value="True" />
+          <PaperType Width="612" Height="792" Left="0" Right="0" Top="0" Bottom="0" />
+          <DefaultStyles>
+            <Style Name="TextStyle" FontName="Arial" FontSize="14" Justify="Left" ForeColor="#000000" Locale="1033" />
+          </DefaultStyles>
+          <PNGResolution>1</PNGResolution>
+          <PNGLargerAction>squeeze</PNGLargerAction>
+          <PNGLargerThanPageChoice>warning</PNGLargerThanPageChoice>
+          <PNGTransparentBG value="False" />
+          <PNGBackColor value="#ffffff" />
+        </Configuration>
+        <Annotation DisplayMode="0">
+          <Name />
+          <DefaultAnnotationText />
+          <Left value="False" />
+        </Annotation>
+        <Dependencies>
+          <Implicit />
+        </Dependencies>
+      </Properties>
+      <EngineSettings EngineDll="PortfolioPluginsEngine.dll" EngineDllEntryPoint="AlteryxPortfolioComposerRenderPlugin" />
+    </Node>
+  </Nodes>
+  <Connections>
+    <Connection>
+      <Origin ToolID="2" Connection="Output1" />
+      <Destination ToolID="3" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="2" Connection="Output1" />
+      <Destination ToolID="4" Connection="Input2" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="4" Connection="Output26" />
+      <Destination ToolID="6" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="6" Connection="Estimation" />
+      <Destination ToolID="8" Connection="Input" />
+    </Connection>
+    <Connection name="#1">
+      <Origin ToolID="6" Connection="Estimation" />
+      <Destination ToolID="9" Connection="Input" />
+    </Connection>
+    <Connection name="#3">
+      <Origin ToolID="6" Connection="Estimation" />
+      <Destination ToolID="10" Connection="Input" />
+    </Connection>
+    <Connection name="#1">
+      <Origin ToolID="9" Connection="Output4" />
+      <Destination ToolID="10" Connection="Input" />
+    </Connection>
+    <Connection name="#2">
+      <Origin ToolID="12" Connection="Output1" />
+      <Destination ToolID="10" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="9" Connection="Output5" />
+      <Destination ToolID="11" Connection="Input2" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="10" Connection="Output1" />
+      <Destination ToolID="13" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="10" Connection="Output1" />
+      <Destination ToolID="14" Connection="Input" />
+    </Connection>
+    <Connection name="#1">
+      <Origin ToolID="11" Connection="Output26" />
+      <Destination ToolID="12" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="14" Connection="Output" />
+      <Destination ToolID="16" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="16" Connection="Output" />
+      <Destination ToolID="17" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="17" Connection="Output" />
+      <Destination ToolID="15" Connection="Input" />
+    </Connection>
+    <Connection>
+      <Origin ToolID="17" Connection="Output" />
+      <Destination ToolID="18" Connection="Input" />
+    </Connection>
+  </Connections>
+  <Properties>
+    <Memory default="True" />
+    <GlobalRecordLimit value="0" />
+    <TempFiles default="True" />
+    <Annotation on="True" includeToolName="False" />
+    <ConvErrorLimit value="10" />
+    <ConvErrorLimit_Stop value="False" />
+    <CancelOnError value="False" />
+    <DisableBrowse value="False" />
+    <EnablePerformanceProfiling value="False" />
+    <RunWithE2 value="True" />
+    <PredictiveToolsCodePage value="1252" />
+    <DisableAllOutput value="False" />
+    <ShowAllMacroMessages value="False" />
+    <ShowConnectionStatusIsOn value="True" />
+    <ShowConnectionStatusOnlyWhenRunning value="True" />
+    <ZoomLevel value="0" />
+    <LayoutType>Horizontal</LayoutType>
+    <MetaInfo>
+      <NameIsFileName value="True" />
+      <Name>New Workflow2</Name>
+      <Description />
+      <RootToolName />
+      <ToolVersion />
+      <ToolInDb value="False" />
+      <CategoryName />
+      <SearchTags />
+      <Author />
+      <Company />
+      <Copyright />
+      <DescriptionLink actual="" displayed="" />
+      <Example>
+        <Description />
+        <File />
+      </Example>
+      <WorkflowId value="d49f4d29-6d16-43d4-896f-366cb48bad89" />
+      <Telemetry>
+        <PreviousWorkflowId value="d97ff82f-2ffb-42a2-81df-f2d549c69da0" />
+        <OriginWorkflowId value="d97ff82f-2ffb-42a2-81df-f2d549c69da0" />
+      </Telemetry>
+      <PlatformWorkflowId value="" />
+    </MetaInfo>
+    <Events>
+      <Enabled value="True" />
+    </Events>
+  </Properties>
+</AlteryxDocument>
